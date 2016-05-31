@@ -12,7 +12,7 @@ web/.htaccess
 
 # WP-CLI
 db-sync
-sql-dump-*.sql
+*.sql
 
 # Dotenv
 .env
@@ -29,3 +29,6 @@ node_modules
 # Vagrant
 bin
 .vagrant
+
+# Docker
+docker/mysql/*.sql
