@@ -32,6 +32,7 @@ services:
       - SITEPATH=/var/www/html/web
       - VIRTUAL_HOST=${DOMAIN}
       - VIRTUAL_PORT=80
+      - WP_ENV=docker
     depends_on:
       - mysql
       - redis
