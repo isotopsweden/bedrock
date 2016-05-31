@@ -1,10 +1,10 @@
 set :stage, :production
 
 # Sentry release configuration
-set :sentry_project, ''
-
-# After hooks need a role
-role :web, %w{deploy@}
+set :sentry_project, 'production'
 
 # Deploy to server
-server '', user: 'deploy', roles: %w{web}
+server 'example.com', user: 'deploy', roles: %w{web}
+
+# Merge default env variables.
+fetch(:default_env).merge!(wp_env: :production)
