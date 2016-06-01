@@ -28,10 +28,12 @@ Rake::Task["deploy:updated"].prerequisites.delete("composer:install")
 # All deploy actions.
 namespace :deploy do
   SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
-  after "deploy:starting", 'composer:install_executable'
+
   before :updating, "deploy:upload_tarball"
-  before :updating, "deploy:groupify_web"
   before :rollback, "deploy:groupify_web"
+
+  after :starting, 'composer:install_executable'
+  after :publishing, "deploy:groupify_web"
   after :published, "sentry:notify_deployment"
 end
 
