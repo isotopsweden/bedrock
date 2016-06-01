@@ -32,7 +32,6 @@ namespace :docker do
   set :branch, `git symbolic-ref HEAD 2> /dev/null`.strip.gsub(/^refs\/heads\//, '')
 
   task :deploy do
-    set :deploy_to, -> { "/tmp/#{fetch(:application)}/#{fetch(:branch)}" }
     invoke "deploy"
     invoke "docker:restart"
   end
