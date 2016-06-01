@@ -1,7 +1,8 @@
 # Basic settings for deploying.
-set :application, "my_app_name"
-set :repo_url, "git@example.com:me/my_repo.git"
+set :application, "bedrock"
+set :repo_url, "git@github.com:isotopsweden/bedrock.git"
 set :docker_domain, -> { "#{fetch(:branch).split("/").last}.example.com" }
+set :user, "deploy"
 
 # Hardcodes branch to always be master
 # This could be overridden in a stage config file
@@ -18,16 +19,15 @@ set :linked_files, fetch(:linked_files, []).push(".env")
 set :linked_dirs, fetch(:linked_dirs, []).push("web/app/uploads")
 
 # Sentry release configuration.
-# https://gist.github.com/cannikin/2fc8134491943c04814b
 set :sentry_org, ""
 set :sentry_api_key, ""
 
 # All deploy actions.
 namespace :deploy do
-  before :starting, "deploy:composer"
+  after "deploy:starting", "deploy:install_composer_executable"
   before :updating, "deploy:upload_tarball"
-  before :updating, "deploy:groupify"
-  before :rollback, "deploy:groupify"
+  before :updating, "deploy:groupify_web"
+  before :rollback, "deploy:groupify_web"
   after :published, "sentry:notify_deployment"
 end
 
