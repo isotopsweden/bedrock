@@ -24,5 +24,5 @@ DOMAIN="docker-web-test.dev" docker-compose up
 Remove a single instance of containers:
 
 ```
-DOMAIN="docker-web-test4.dev" docker rm $(docker stop $(docker ps -a -q --filter name="$DOMAIN" --format="{{.ID}}"))
+DOMAIN="docker-web-test.dev" docker rm $(docker stop $(docker ps -a -q --filter name="$DOMAIN" --format="{{.ID}}"))
 ```
