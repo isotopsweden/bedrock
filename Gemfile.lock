@@ -1,10 +1,9 @@
 GIT
   remote: git@github.com:isotopsweden/capistrano-isotop.git
-  revision: accc1335d6b1872da1c9203022680b4adabd967c
+  revision: 561686c1c40a2e9d22fcab5a946d679d8f5172ed
   specs:
     capistrano-isotop (1.0.4)
       capistrano (~> 3.0)
-      capistrano-composer
 
 GEM
   remote: https://rubygems.org/
@@ -36,6 +35,7 @@ PLATFORMS
 
 DEPENDENCIES
   capistrano (~> 3.0)
+  capistrano-composer
   capistrano-isotop!
   capistrano-touch-linked-files
 

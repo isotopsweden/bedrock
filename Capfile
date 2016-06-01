@@ -4,6 +4,9 @@ require 'capistrano/setup'
 # Includes default deployment tasks
 require 'capistrano/deploy'
 
+# Include composer.
+require 'capistrano/composer'
+
 # Include common Isotop deploy tasks.
 require 'capistrano/isotop'
 
