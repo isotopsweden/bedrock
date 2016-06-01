@@ -4,6 +4,9 @@ require 'capistrano/setup'
 # Includes default deployment tasks
 require 'capistrano/deploy'
 
+# Include common Isotop deploy tasks.
+require 'capistrano/isotop'
+
 # Include touch linked files
 require 'capistrano/touch-linked-files'
 

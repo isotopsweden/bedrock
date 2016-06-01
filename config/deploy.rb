@@ -24,7 +24,11 @@ set :sentry_api_key, ""
 
 # All deploy actions.
 namespace :deploy do
-  after :published, 'sentry:notify_deployment'
+  before :starting, "deploy:composer"
+  before :updating, "deploy:upload_tarball"
+  before :updating, "deploy:groupify"
+  before :rollback, "deploy:groupify"
+  after :published, "sentry:notify_deployment"
 end
 
 # Docker task
