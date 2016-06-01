@@ -35,14 +35,23 @@ namespace :docker do
     invoke "deploy"
     invoke "docker:restart"
   end
-
   task :restart do
-    on roles(:all) do
+    invoke "docker:remove"
+    on roles(:web) do
       execute %{
         cd #{fetch(:release_path)}
-        DOMAIN="#{fetch(:docker_domain)}" CONTAINERS=$(docker ps -a -q --filter name="$DOMAIN" --format="{{.ID}}")
-        [ ! -z "$CONTAINERS" ] && DOMAIN="#{fetch(:docker_domain)}" docker rm $(docker stop $(docker ps -a -q --filter name="$DOMAIN" --format="{{.ID}}"))
         DOMAIN="#{fetch(:docker_domain)}" docker-compose up -d
+      }
+    end
+  end
+
+  task :remove do
+    on roles(:web) do
+      execute %{
+        cd #{fetch(:release_path)}
+        CONTAINERS=$(docker ps -a | grep #{fetch(:docker_domain)} | awk '{print $1}')
+        [ ! -z "$CONTAINERS" ] && docker ps -a | grep #{fetch(:docker_domain)} | awk '{print $1}' | xargs docker stop || echo "No containers stopped"
+        [ ! -z "$CONTAINERS" ] && docker ps -a | grep #{fetch(:docker_domain)} | awk '{print $1}' | xargs docker rm || echo "No containers removed"
       }
     end
   end
