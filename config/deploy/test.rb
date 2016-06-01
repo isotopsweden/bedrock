@@ -4,7 +4,7 @@ set :stage, :test
 set :sentry_project, 'test'
 
 # Deploy to server
-server 'apps.frozzare.com', user: 'root', roles: %w{web}
+server 'example.com', user: 'deploy', roles: %w{web}
 
 # Merge default env variables.
 fetch(:default_env).merge!(wp_env: :test)
