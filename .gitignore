@@ -32,3 +32,9 @@ bin
 
 # Docker
 docker/mysql/*.sql
+
+# Bundle
+.bundle
+
+# Logging
+log
