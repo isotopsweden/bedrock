@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:isotopsweden/capistrano-isotop.git
-  revision: bac812997258a20bb01bb4c6c69dea6ef0c81375
+  revision: c1df5856cfa166e6a345c3ad802270a884365912
   specs:
     capistrano-isotop (1.0.5)
       capistrano (~> 3.0)

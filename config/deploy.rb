@@ -31,6 +31,7 @@ namespace :deploy do
 
   before :updating, "deploy:upload_tarball"
   before :rollback, "deploy:groupify_web"
+  before :publishing, "deploy:groupify_shared"
 
   after :starting, 'composer:install_executable'
   after :publishing, "deploy:groupify_web"
