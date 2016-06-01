@@ -27,6 +27,7 @@ namespace :deploy do
   after :published, 'sentry:notify_deployment'
 end
 
+# Docker task
 namespace :docker do
   set :branch, `git symbolic-ref HEAD 2> /dev/null`.strip.gsub(/^refs\/heads\//, '')
 
