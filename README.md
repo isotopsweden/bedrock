@@ -1,9 +1,5 @@
 # Custom [Bedrock](https://roots.io/bedrock/) setup
 
-## Capistrano
-
-Not a working deployment setup with the existing files, but can be added in the projects using this setup.
-
 ## Docker
 
 ### Docker testing
