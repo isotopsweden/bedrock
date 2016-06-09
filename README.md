@@ -15,6 +15,17 @@ docker network create test
 docker run -d -p 80:80 --net test -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy
 ```
 
+If you would like to have Let's Encrypt certificate this can be done using [docker-letsencrypt-nginx-proxy-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion):
+
+```
+docker run -d \
+  --net test \
+  -v /path/to/certs:/etc/nginx/certs:rw \
+  --volumes-from nginx-proxy \
+  -v /var/run/docker.sock:/var/run/docker.sock:ro \
+  jrcs/letsencrypt-nginx-proxy-companion
+```
+
 Run this for every instance:
 
 ```
