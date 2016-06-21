@@ -22,9 +22,6 @@ set :linked_dirs, fetch(:linked_dirs, []).push("web/app/uploads")
 set :sentry_org, ""
 set :sentry_api_key, ""
 
-# Composer with `--quiet` flag will not output anything so delete it from `prerequisites` list.
-Rake::Task["deploy:updated"].prerequisites.delete("composer:install")
-
 # All deploy actions.
 namespace :deploy do
   SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
