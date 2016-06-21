@@ -4,10 +4,6 @@ set :repo_url, "git@github.com:isotopsweden/bedrock.git"
 set :docker_domain, -> { "#{fetch(:branch).split("/").last}.example.com" }
 set :user, "deploy"
 
-# Hardcodes branch to always be master
-# This could be overridden in a stage config file
-set :branch, :master
-
 # Use :debug for more verbose output when troubleshooting
 set :log_level, :info
 
