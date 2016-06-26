@@ -22,12 +22,12 @@ set :sentry_api_key, ""
 namespace :deploy do
   SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
 
+  after :updating, "deploy:groupify_web"
   before :updating, "deploy:upload_tarball"
   before :rollback, "deploy:groupify_web"
   before :publishing, "deploy:groupify_shared"
 
-  after :starting, 'composer:install_executable'
-  after :publishing, "deploy:groupify_web"
+  after :starting, "composer:install_executable"
   after :published, "sentry:notify_deployment"
 end
 
