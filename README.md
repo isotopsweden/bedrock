@@ -15,7 +15,7 @@ Run this once (with cert using Let's Encrypt):
 
 ```
 docker run -d -p 80:80 -p 443:443 \
-  --net test
+  --net test \
   --name nginx-proxy \
   -v /path/to/certs:/etc/nginx/certs:ro \
   -v /etc/nginx/vhost.d \
