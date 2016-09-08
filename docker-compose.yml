@@ -1,23 +1,6 @@
 version: '2'
 
 services:
-  mysql:
-    container_name: mysql.${DOMAIN}
-    network_mode: test
-    image: mysql
-    expose:
-      - 3306
-    volumes:
-      - ./docker/mysql:/docker-entrypoint-initdb.d
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=docker
-  redis:
-    container_name: redis.${DOMAIN}
-    network_mode: test
-    image: redis
-    expose:
-      - 6379
   web:
     container_name: ${DOMAIN}
     network_mode: test
