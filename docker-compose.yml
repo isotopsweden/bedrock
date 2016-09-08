@@ -18,6 +18,5 @@ services:
       - LETSENCRYPT_EMAIL=user@example.com
       - VIRTUAL_PORT=80
       - WP_ENV=docker
-    depends_on:
+    external_links:
       - mysql
-      - redis
