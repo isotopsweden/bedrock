@@ -33,29 +33,61 @@ end
 
 # Docker task
 namespace :docker do
-  set :branch, `git symbolic-ref HEAD 2> /dev/null`.strip.gsub(/^refs\/heads\//, '')
+  # Find branch to deploy with.
+  set :branch, ENV['CI_BUILD_REF_NAME'] || `git symbolic-ref HEAD 2> /dev/null`.strip.gsub(/^refs\/heads\//, '')
+
+  # Deploy to custom path for each branch.
+  set :deploy_to, -> { "/mnt/persist/#{fetch(:application)}/#{fetch(:branch)}" }
+
+  # Find email to use.
+  set :docker_email, `git log --pretty=email -n 1|grep -o '[[:alnum:]+\.\_\-]*@[[:alnum:]+\.\_\-]*'`.strip.gsub(';','')
+
+  # Use root
+  set :user, 'root'
+
+  # No linked files.
+  set :linked_files, []
+
+  # No linked directories.
+  set :linked_dirs, []
 
   task :deploy do
     invoke "deploy"
     invoke "docker:restart"
   end
-  task :restart do
-    invoke "docker:remove"
+
+  task :list do
     on roles(:web) do
       execute %{
-        cd #{fetch(:release_path)}
-        DOMAIN="#{fetch(:docker_domain)}" docker-compose up -d
+        docker ps -a | grep #{fetch(:docker_domain)}
       }
+    end
+  end
+
+  task :restart do
+    on roles(:web) do
+      if fetch(:docker_domain)[0] != "."
+        execute %{
+          cd #{fetch(:release_path)}
+          export DOMAIN="#{fetch(:docker_domain)}"
+          export EMAIL="#{fetch(:docker_email)}"
+          CONTAINERS=$(docker ps -a | grep #{fetch(:docker_domain)} | awk '{print $1}')
+          [ -z "$CONTAINERS" ] && DOMAIN="#{fetch(:docker_domain)}" docker-compose up -d || echo "Docker: Container exists"
+          [ ! -z "$CONTAINERS" ] && (docker stop $CONTAINERS || echo "Docker: No container stopped") && (docker rm $CONTAINERS || echo "Docker: No container removed") && docker-compose up -d --no-recreate --no-deps web || echo "Docker: Failed when trying to restart container"
+          docker ps -a | grep #{fetch(:docker_domain)} | awk '{print $1}'
+        }
+      else
+        puts "Bad docker domain #{fetch(:docker_domain)}"
+      end
     end
   end
 
   task :remove do
     on roles(:web) do
       execute %{
-        cd #{fetch(:release_path)}
         CONTAINERS=$(docker ps -a | grep #{fetch(:docker_domain)} | awk '{print $1}')
-        [ ! -z "$CONTAINERS" ] && docker ps -a | grep #{fetch(:docker_domain)} | awk '{print $1}' | xargs docker stop || echo "No containers stopped"
-        [ ! -z "$CONTAINERS" ] && docker ps -a | grep #{fetch(:docker_domain)} | awk '{print $1}' | xargs docker rm || echo "No containers removed"
+        [ ! -z "$CONTAINERS" ] && docker ps -a | grep #{fetch(:docker_domain)} | awk '{print $1}' | xargs docker stop || echo "Docker: No containers stopped"
+        [ ! -z "$CONTAINERS" ] && docker ps -a | grep #{fetch(:docker_domain)} | awk '{print $1}' | xargs docker rm || echo "Docker: No containers removed"
       }
     end
   end
