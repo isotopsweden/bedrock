@@ -6,7 +6,7 @@ services:
     network_mode: test
     image: isotop/php:5.6-apache
     expose:
-    - 80
+      - 80
     volumes:
       - ${HOME}/.ssh:/root/.ssh
       - .:/var/www/html
