@@ -1,6 +1,12 @@
 version: '2'
 
 services:
+  redis:
+    container_name: redis.${DOMAIN}
+    network_mode: test
+    image: redis
+    expose:
+      - 6379
   web:
     container_name: ${DOMAIN}
     network_mode: test
@@ -18,5 +24,6 @@ services:
       - LETSENCRYPT_EMAIL=user@example.com
       - VIRTUAL_PORT=80
       - WP_ENV=docker
-    external_links:
-      - mysql
+      - MAIL_TO=${EMAIL}
+    depends_on:
+      - redis
