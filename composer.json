@@ -16,7 +16,7 @@
   "require": {
     "php": ">=5.5 || ^7.0",
     "composer/installers": "~1.0.12",
-    "vlucas/phpdotenv": "^2.0.1",
+    "vlucas/phpdotenv": "^3.6.5",
     "johnpbloch/wordpress": "^4.5",
     "oscarotero/env": "^1.0",
     "roots/wp-password-bcrypt": "1.0.0"
